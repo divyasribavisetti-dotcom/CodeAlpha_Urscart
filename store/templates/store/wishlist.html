@@ -1,0 +1,6 @@
+{% extends 'store/base.html' %}
+{% block title %}Wishlist · Urs Cart{% endblock %}
+{% block content %}
+<section class="banner"><label>YOUR SAVED PICKS</label><h1>Your wishlist.</h1><p>Keep products you love close until you're ready to buy.</p></section>
+<section class="section"><div class="grid">{% for item in wishlist_items %}<article class="card reveal"><a href="{% url 'product_detail' item.product.id %}"><img src="{{item.product.image_url}}" alt="{{item.product.name}}"><span>{{item.product.category}}</span></a><div><h3>{{item.product.name}}</h3><p>{{item.product.description|truncatechars:65}}</p><div class="price"><b>₹{{item.product.price}}</b><form method="post" action="{% url 'toggle_wishlist' item.product.id %}">{% csrf_token %}<input type="hidden" name="next" value="{% url 'wishlist' %}"><button aria-label="Remove from wishlist">♥</button></form></div></div></article>{% empty %}<div class="empty"><h2>Your wishlist is empty.</h2><p>Save products you love while you browse.</p><a class="btn" href="{% url 'shop' %}">Explore products →</a></div>{% endfor %}</div></section>
+{% endblock %}

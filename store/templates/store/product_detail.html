@@ -1,0 +1,19 @@
+{%extends 'store/base.html'%}{%block title%}{{product.name}} · NovaCart{%endblock%}{%block content%}<section class="detail"><img class="detail-img reveal" src="{{product.image_url}}"><div class="detail-copy reveal"><label>{{product.category}}</label><h1>{{product.name}}</h1><h2>₹{{product.price}}</h2><p>{{product.description}}</p><p class="stock">{%if product.stock%}✓ {{product.stock}} available{%else%}Out of stock{%endif%}</p>{%if product.stock%}<form method="post" action="{%url 'add_to_cart' product.id%}">{%csrf_token%}<button class="btn">Add to cart →</button></form>{%endif%}</div></section>
+<section class="section feature-section">
+  <div class="feature-row">
+    <div>
+      <label>YOUR LIST</label><h2>Save it for later.</h2>
+      <p class="feature-muted">Keep favorites in one place and come back whenever you're ready.</p>
+    </div>
+    <form method="post" action="{% url 'toggle_wishlist' product.id %}">{% csrf_token %}<input type="hidden" name="next" value="{% url 'product_detail' product.id %}"><button class="outline-btn" type="submit">{% if in_wishlist %}♥ Saved to wishlist{% else %}♡ Add to wishlist{% endif %}</button></form>
+  </div>
+</section>
+<section class="section feature-section">
+  <div class="heading"><div><label>SMART RECOMMENDATIONS</label><h2>You may also like</h2></div></div>
+  <div class="grid">{% for p in related %}<article class="card"><a href="{% url 'product_detail' p.id %}"><img src="{{p.image_url}}" alt="{{p.name}}"><span>{{p.category}}</span></a><div><h3>{{p.name}}</h3><p>{{p.description|truncatechars:65}}</p><div class="price"><b>₹{{p.price}}</b></div></div></article>{% endfor %}</div>
+</section>
+<section class="section feature-section">
+  <div class="heading"><div><label>COMMUNITY</label><h2>Reviews{% if review_average %} · {{review_average}}/5{% endif %}</h2></div><span class="feature-muted">{{review_count}} review{{review_count|pluralize}}</span></div>
+  {% for r in reviews %}<div class="review-item"><div><strong>{{r.user.username}}</strong><span> · {{r.rating}}/5</span><small>{{r.created_at|date:'d M Y'}}</small></div><p>{{r.comment|default:'No written comment.'}}</p></div>{% empty %}<div class="empty">Be the first to review this product.</div>{% endfor %}
+  <form class="review-form" method="post" action="{% url 'add_review' product.id %}">{% csrf_token %}<h3>{% if my_review %}Update your review{% else %}Share your review{% endif %}</h3><label>Rating<select name="rating" required>{% for n in '12345' %}<option value="{{n}}" {% if my_review and my_review.rating|stringformat:'s' == n %}selected{% endif %}>{{n}} / 5</option>{% endfor %}</select></label><label>Comment<textarea name="comment" rows="3" maxlength="500" placeholder="What did you like about it?">{% if my_review %}{{my_review.comment}}{% endif %}</textarea></label><button class="btn" type="submit">Save review →</button></form>
+</section>{%endblock%}

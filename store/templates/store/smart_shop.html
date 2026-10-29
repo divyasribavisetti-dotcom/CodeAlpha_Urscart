@@ -1,0 +1,8 @@
+{% extends 'store/base.html' %}
+{% block title %}Smart Shop · Urs Cart{% endblock %}
+{% block content %}
+<section class="banner"><label>SHOP SMARTER</label><h1>Build a bundle within your budget.</h1><p>Tell Urs Cart what you want to spend and we'll suggest a practical mix of products without crossing your limit.</p></section>
+<section class="section smart-shop"><form class="budget-form" method="get"><label>Your budget<input type="number" name="budget" min="1" step="1" value="{{budget|default:''}}" placeholder="e.g. 2000" required></label><button class="btn" type="submit">Find my bundle →</button></form>
+{% if budget %}<div class="smart-result"><div class="heading"><div><label>PERSONALIZED FOR YOU</label><h2>Smart bundle under ₹{{budget}}</h2></div></div>{% if picks %}<div class="grid">{% for p in picks %}<article class="card"><a href="{% url 'product_detail' p.id %}"><img src="{{p.image_url}}" alt="{{p.name}}"><span>{{p.category}}</span></a><div><h3>{{p.name}}</h3><p>{{p.description|truncatechars:65}}</p><div class="price"><b>₹{{p.price}}</b><form method="post" action="{% url 'add_to_cart' p.id %}">{% csrf_token %}<input type="hidden" name="next" value="{% url 'smart_shop' %}?budget={{budget}}"><button>+</button></form></div></div></article>{% endfor %}</div>{% else %}<div class="empty"><h2>No bundle fits that budget yet.</h2><p>Try increasing your budget a little.</p></div>{% endif %}</div>{% endif %}
+</section>
+{% endblock %}

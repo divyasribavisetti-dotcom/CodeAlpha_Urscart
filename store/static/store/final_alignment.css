@@ -1,0 +1,10 @@
+/* Final alignment fixes — only for the two requested areas */
+.category-grid{align-items:stretch}
+.category-grid .cat{height:290px;min-height:290px;display:flex;flex-direction:column}
+.category-grid .cat-image{height:155px;min-height:155px;flex:0 0 155px}
+.category-grid .cat-copy{flex:1;display:flex;flex-direction:column;padding:17px 17px 18px}
+.category-grid .cat-copy span{margin-bottom:0}
+.category-grid .cat-copy b{margin-top:auto}
+
+.hero-text > div:not(.hero-stats){display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hero .btn{margin:20px 0}

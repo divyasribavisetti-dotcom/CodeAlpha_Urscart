@@ -1,0 +1,24 @@
+{% extends 'store/base.html' %}
+{% block title %}Categories · Urs Cart{% endblock %}
+{% block content %}
+<section class="banner category-banner">
+  <label>EXPLORE URS CART</label>
+  <h1>Shop by <em>category.</em></h1>
+  <p>Quickly find what fits your day — from tech and fashion to study essentials, travel and self-care.</p>
+</section>
+<section class="section category-section">
+  <div class="category-grid">
+    {% for c,count,first in categories %}
+    <a class="cat reveal" href="{% url 'shop' %}?category={{c|urlencode}}">
+      <div class="cat-image"><img src="{{ first.image_url }}" alt="{{ c }}"></div>
+      <div class="cat-copy">
+        <small>0{{forloop.counter}}</small>
+        <h2>{{c}}</h2>
+        <span>{{count}} products</span>
+        <b>Explore →</b>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

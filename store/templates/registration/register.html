@@ -1,0 +1,10 @@
+{% extends 'store/base.html' %}
+{% block title %}Register · Urs Cart{% endblock %}
+{% block content %}
+<section class="auth">
+<div class="auth-copy reveal"><label>WELCOME TO URS CART</label><h1>Your next favorite thing is <em>waiting.</em></h1><p>Create your account once and enjoy a smooth shopping experience with saved carts, checkout and order tracking.</p><ul><li>✓ Discover curated products</li><li>✓ Build your personal cart</li><li>✓ Checkout and track every order</li></ul></div>
+<div class="auth-card reveal"><div class="spark">✦</div><h2>Create your account</h2><p>New here? You're in the right place.</p>
+<form method="post">{% csrf_token %}<label>Username<input name="username" required placeholder="Choose a username"></label><label>Email<input type="email" name="email" required placeholder="you@example.com"></label><label>Password<input type="password" name="password" required placeholder="At least 6 characters"></label><label>Confirm password<input type="password" name="confirm_password" required placeholder="Re-enter password"></label><button class="btn">Create account →</button></form>
+<div class="auth-switch">Already have an account? <a href="{% url 'login' %}">Login here</a></div>
+</div></section>
+{% endblock %}
